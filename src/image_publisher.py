@@ -8,7 +8,7 @@ from sensor_msgs.msg import Image
 def publish_image():
     """Capture frames from a camera and publish it to the topic image_raw
     """
-    image_pub = rospy.Publisher("image_raw", Image, queue_size=10)
+    image_pub = rospy.Publisher("/webcam/image_raw", Image, queue_size=10)
     bridge = CvBridge()
     capture = cv2.VideoCapture("/dev/video0")
 
