@@ -10,13 +10,12 @@ class camera_publisher:
     def __init__(self):
         """Initialize the class
         """
-        self.image_pub = rospy.Publisher("image_raw", Image, queue_size=10)
+        self.image_pub = rospy.Publisher("/webcam/image_raw", Image, queue_size=10)
         self.bridge = CvBridge()
         self.capture = cv2.VideoCapture(rospy.get_param("my_webcam/camera_name"))
 
     def publish_image(self):
-        """Capture frames from a camera and publish it to the topic image_raw
-        """
+        """Capture frames from a camera and publish it to the topic /webcam/image_raw"""
         while not rospy.is_shutdown():
             # Capture a frame
             ret, img = self.capture.read()
@@ -24,7 +23,7 @@ class camera_publisher:
                 rospy.ERROR("Could not grab a frame!")
                 break
 
-            # Publish the image to the topic image_raw
+            # Publish the image to the topic /webcam/image_raw
             try:
                 img_msg = self.bridge.cv2_to_imgmsg(img, "bgr8")
                 img_msg.header.stamp = rospy.Time.now()
@@ -36,7 +35,7 @@ class camera_publisher:
 if __name__=="__main__":
     cam_pub = camera_publisher()
     rospy.init_node("my_cam", anonymous=True)
-    print("Image is being published to the topic image_raw...")
+    print("Image is being published to the topic /webcam/image_raw...")
     cam_pub.publish_image()
     
     try:
