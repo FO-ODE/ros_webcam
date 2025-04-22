@@ -25,6 +25,7 @@ class camera_publisher:
 
             # Publish the image to the topic /webcam/image_raw
             try:
+                # img = cv2.flip(img, 1)  # Flip the image horizontally
                 img_msg = self.bridge.cv2_to_imgmsg(img, "bgr8")
                 img_msg.header.stamp = rospy.Time.now()
                 self.image_pub.publish(img_msg)
